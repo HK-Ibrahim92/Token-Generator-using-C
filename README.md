@@ -42,9 +42,8 @@ int main() {
 '0' IS AN INTEGER
 ';' IS AN OPERATOR
 '}' IS A SPECIAL CHARACTER
-```
 
-## License
+## License:
 This project is licensed under the MIT License - Feel free to modify and use it.
 
 
