@@ -8,7 +8,7 @@ int tokenCount = 0;  // Counter variable to keep track of tokens
 
 
 // Returns 'true' if the character is a DELIMITER.
-bool isDelimiterHA(char character)
+bool isDelimiter(char character)
 {
     if (character == ' ' || character == '+' || character == '-' || character == '*' ||
         character == '/' || character == ',' || character == ';' || character == '>' ||
@@ -19,7 +19,7 @@ bool isDelimiterHA(char character)
 }
 
 // Returns 'true' if the character is an OPERATOR.
-bool isOperatorHA(char character)
+bool isOperator(char character)
 {
     if (character == '+' || character == '-' || character == '*' ||
         character == '/' || character == '>' || character == '<' ||
@@ -29,7 +29,7 @@ bool isOperatorHA(char character)
 }
 
 // Returns 'true' if the string is a VALID IDENTIFIER.
-bool isValidIdentifierHA(char* string)
+bool isValidIdentifier(char* string)
 {
 	  // Trim leading whitespaces
     int start = 0;
@@ -47,12 +47,12 @@ bool isValidIdentifierHA(char* string)
     if (string[0] == '0' || string[0] == '1' || string[0] == '2' ||
         string[0] == '3' || string[0] == '4' || string[0] == '5' ||
         string[0] == '6' || string[0] == '7' || string[0] == '8' ||
-        string[0] == '9' || isDelimiterHA(string[0]) == true)
+        string[0] == '9' || isDelimiter(string[0]) == true)
         return (false);
     return (true);
 }
 // Extracts the SUBSTRING.
-char* extractSubstringHA(char* string, int left, int right)
+char* extractSubstring(char* string, int left, int right)
 {
     int i;
     char* subString = (char*)malloc(
@@ -65,7 +65,7 @@ char* extractSubstringHA(char* string, int left, int right)
 }
 
 // Returns 'true' if the string is a KEYWORD.
-bool isKeywordHA(char* string)
+bool isKeyword(char* string)
 {
 	  // Trim leading and trailing whitespaces
     int start = 0;
@@ -76,7 +76,7 @@ bool isKeywordHA(char* string)
     while (end >= start && isspace(string[end]))
         end--;
 
-    char* trimmedString = extractSubstringHA(string, start, end);
+    char* trimmedString = extractSubstring(string, start, end);
 if (trimmedString != NULL) {	
    
     if (!strcmp(trimmedString, "auto") || !strcmp(trimmedString, "break") ||
@@ -107,7 +107,7 @@ if (trimmedString != NULL) {
 
 
 // Returns 'true' if the string is an INTEGER.
-bool isIntegerHA(char* string)
+bool isInteger(char* string)
 {
     int i, len = strlen(string);
 
@@ -124,7 +124,7 @@ bool isIntegerHA(char* string)
 }
 
 // Returns 'true' if the string is a REAL NUMBER.
-bool isRealNumberHA(char* string)
+bool isRealNumber(char* string)
 {
     int i, len = strlen(string);
     bool hasDecimal = false;
@@ -147,7 +147,7 @@ bool isRealNumberHA(char* string)
 
 
 // Parsing the input STRING.
-void parseInputStringHA(char* string)
+void parseInputString(char* string)
 {
     int left = 0, right = 0;
     int len = strlen(string);
@@ -157,11 +157,11 @@ void parseInputStringHA(char* string)
         while (right <= len && isspace(string[right]))
             right++;
             
-	    if (isDelimiterHA(string[right]) == false)
+	    if (isDelimiter(string[right]) == false)
             right++;
 
-        if (isDelimiterHA(string[right]) == true && left == right) {
-            if (isOperatorHA(string[right]) == true){
+        if (isDelimiter(string[right]) == true && left == right) {
+            if (isOperator(string[right]) == true){
 			
                 printf("'%c' IS AN OPERATOR\n", string[right]);
                 tokenCount++;
@@ -178,26 +178,26 @@ void parseInputStringHA(char* string)
             right++;
             left = right;
         }
-        else if (isDelimiterHA(string[right]) == true && left != right
+        else if (isDelimiter(string[right]) == true && left != right
             || (right == len && left != right)) {
-            char* subString = extractSubstringHA(string, left, right - 1);
+            char* subString = extractSubstring(string, left, right - 1);
             tokenCount++;
 
-            if (isKeywordHA(subString) == true)
+            if (isKeyword(subString) == true)
                 printf("'%s' IS A KEYWORD\n", subString);
 
-            else if (isIntegerHA(subString) == true)
+            else if (isInteger(subString) == true)
                 printf("'%s' IS AN INTEGER\n", subString);
 
-            else if (isRealNumberHA(subString) == true)
+            else if (isRealNumber(subString) == true)
                 printf("'%s' IS A REAL NUMBER\n", subString);
 
-            else if (isValidIdentifierHA(subString) == true
-                && isDelimiterHA(string[right - 1]) == false)
+            else if (isValidIdentifier(subString) == true
+                && isDelimiter(string[right - 1]) == false)
                 printf("'%s' IS A VALID IDENTIFIER\n", subString);
 
-            else if (isValidIdentifierHA(subString) == false
-                && isDelimiterHA(string[right - 1]) == false)
+            else if (isValidIdentifier(subString) == false
+                && isDelimiter(string[right - 1]) == false)
                 printf("'%s' IS NOT A VALID IDENTIFIER\n", subString);
             else if (string[right] == '(' || string[right] == ')' ||
                      string[right] == '{' || string[right] == '}')
@@ -231,7 +231,7 @@ int main()
     }
 
     while (fgets(line, sizeof(line), file)) {
-        parseInputStringHA(line);
+        parseInputString(line);
     }
     printf("Total Number of Tokens: %d\n", tokenCount);
 
